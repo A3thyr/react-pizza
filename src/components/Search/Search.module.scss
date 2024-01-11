@@ -1,0 +1,24 @@
+.root {
+  position: relative;
+}
+
+.input {
+  border: 1px solid #7372721b;
+  border-radius: 10px;
+  width: 400px;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+.clearBtn {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  transition: transform 0.3s;
+  &:hover {
+    cursor: pointer;
+    transform: scale(140%);
+  }
+}
