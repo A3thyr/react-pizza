@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useContext } from 'react';
 import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import { setCategoriesIndex, setCurrentPage, setFilters } from '../redux/slices/filtersSlice';
@@ -12,6 +11,7 @@ import Categories from '../components/Categories';
 import Sort, { sortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
+import { fetchPizza } from '../redux/slices/pizzasSlice';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -23,8 +23,7 @@ export const Home = () => {
   const sortId = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
 
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { items, status } = useSelector((state) => state.pizza);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoriesIndex(id));
@@ -34,22 +33,22 @@ export const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
+  const fetchPizzas = async () => {
     const sortBy = sortId.replace('-', '');
     const order = sortId.includes('-') ? 'asc' : 'desc';
     const category = categoriesIndex > 0 ? `category=${categoriesIndex}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    axios
-      .get(
-        `https://659d95dd47ae28b0bd34a20f.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    dispatch(
+      fetchPizza({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      }),
+    );
+
     window.scrollTo(0, 0);
   };
 
@@ -103,7 +102,20 @@ export const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === 'error' ? (
+        <div className="cart cart--empty">
+          <h2>
+            Произошла ошибка <icon>😕</icon>
+          </h2>
+          <p>
+            К сожалению, не удалось получить пиццы.
+            <br />
+            Попробуйте попытку позже.
+          </p>
+        </div>
+      ) : (
+        <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
