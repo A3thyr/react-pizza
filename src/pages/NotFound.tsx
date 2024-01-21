@@ -1,7 +1,7 @@
-import React from 'react';
+import { FC } from 'react';
 import { NotFoundInfo } from '../components/NotFoundInfo';
 
-export const NotFound = () => {
+export const NotFound: FC = () => {
   return (
     <>
       <NotFoundInfo />

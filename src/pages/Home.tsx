@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,25 +11,28 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { fetchPizza, selectPizzaItem } from '../redux/slices/pizzasSlice';
 
-export const Home = () => {
+export const Home: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-
+  //@ts-ignore
   const categoriesIndex = useSelector((state) => state.filter.categoriesIndex);
+  //@ts-ignore
   const sortId = useSelector((state) => state.filter.sort.sortProperty);
+  //@ts-ignore
   const currentPage = useSelector((state) => state.filter.currentPage);
+  //@ts-ignore
   const searchValue = useSelector((state) => state.filter.searchValue);
 
   const { items, status } = useSelector(selectPizzaItem);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoriesIndex(id));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   const fetchPizzas = async () => {
@@ -39,6 +42,7 @@ export const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchPizza({
         sortBy,
         order,
@@ -89,7 +93,7 @@ export const Home = () => {
     isMounted.current = true;
   }, [categoriesIndex, sortId, currentPage]);
 
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj: any) => (
     <Link key={obj.id} to={`/pizza/${obj.id}`}>
       <PizzaBlock {...obj} />
     </Link>
@@ -105,9 +109,7 @@ export const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
         <div className="cart cart--empty">
-          <h2>
-            Произошла ошибка <icon>😕</icon>
-          </h2>
+          <h2>Произошла ошибка 😕</h2>
           <p>
             К сожалению, не удалось получить пиццы.
             <br />
