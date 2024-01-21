@@ -1,6 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { useContext } from 'react';
-import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +9,7 @@ import Categories from '../components/Categories';
 import Sort, { sortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-import { fetchPizza } from '../redux/slices/pizzasSlice';
+import { fetchPizza, selectPizzaItem } from '../redux/slices/pizzasSlice';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -22,8 +20,9 @@ export const Home = () => {
   const categoriesIndex = useSelector((state) => state.filter.categoriesIndex);
   const sortId = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
+  const searchValue = useSelector((state) => state.filter.searchValue);
 
-  const { items, status } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector(selectPizzaItem);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoriesIndex(id));
@@ -51,8 +50,6 @@ export const Home = () => {
 
     window.scrollTo(0, 0);
   };
-
-  const { searchValue } = useContext(SearchContext);
 
   //  Если был первый рендер, то проверяем URL-параметры и сохраняем в redux
   useEffect(() => {
