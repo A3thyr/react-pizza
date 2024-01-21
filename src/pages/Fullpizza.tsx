@@ -1,9 +1,14 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const Fullpizza = () => {
-  const [pizza, setPizza] = useState();
+  const [pizza, setPizza] = useState<{
+    imageUrl: string;
+    title: string;
+    price: number;
+  }>();
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -30,7 +35,7 @@ const Fullpizza = () => {
     <div className="asdfa">
       <img src={pizza.imageUrl} alt="sdfasf" />
       <h2>{pizza.title}</h2>
-      <h4>{pizza.price}</h4>
+      <h4>{pizza.price} ₽</h4>
     </div>
   );
 };
