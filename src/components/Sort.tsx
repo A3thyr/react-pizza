@@ -29,8 +29,11 @@ function Sort() {
   };
 
   useEffect(() => {
-    const wasClickOutside = (event: any) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const wasClickOutside = (event: MouseEvent) => {
+      const _event = event as MouseEvent & {
+        composedPath: () => Node[];
+      };
+      if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     };

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, FC } from 'react';
+import { useState, useRef, useCallback, FC, ChangeEvent } from 'react';
 import { setSearchValue } from '../../redux/slices/filtersSlice';
 import debounce from 'lodash.debounce';
 
@@ -11,7 +11,7 @@ const Search: FC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onClickClear = () => {
+  const onClickClear = (event: React.MouseEvent<SVGSVGElement>) => {
     dispatch(setSearchValue(''));
     setValue('');
     inputRef.current?.focus();
@@ -24,7 +24,7 @@ const Search: FC = () => {
     [],
   );
 
-  const onChangeInput = (event: any) => {
+  const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
