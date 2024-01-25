@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, FC, ChangeEvent } from 'react';
-import { setSearchValue } from '../../redux/slices/filtersSlice';
+import { setSearchValue } from '../../redux/filter/slice';
 import debounce from 'lodash.debounce';
 
 import styles from './Search.module.scss';
