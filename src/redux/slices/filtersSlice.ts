@@ -10,16 +10,16 @@ export enum SortPropertyEnum {
   PRICE_ASC = '-price',
 }
 
-export type Sort = {
+export type SortProps = {
   name: string;
   sortProperty: SortPropertyEnum;
 };
 
-interface FilterState {
+export interface FilterState {
   searchValue: string;
   categoriesIndex: number;
   currentPage: number;
-  sort: Sort;
+  sort: SortProps;
 }
 
 const initialState: FilterState = {
@@ -42,7 +42,7 @@ const filtersSlice = createSlice({
     setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
-    setSortId(state, action: PayloadAction<Sort>) {
+    setSortId(state, action: PayloadAction<SortProps>) {
       state.sort = action.payload;
     },
     setCurrentPage(state, action: PayloadAction<number>) {

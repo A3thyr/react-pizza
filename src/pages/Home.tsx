@@ -1,36 +1,32 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import qs from 'qs';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import { setCategoriesIndex, setCurrentPage, setFilters } from '../redux/slices/filtersSlice';
 import Pagination from '../components/Pagination';
 import Categories from '../components/Categories';
-import Sort, { sortList } from '../components/Sort';
+import SortPopup, { sortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { SearchPizzaParams, fetchPizza, selectPizzaItem } from '../redux/slices/pizzasSlice';
-import { useAppDispatch } from '../redux/store';
+import { RootState, useAppDispatch } from '../redux/store';
 
 export const Home: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  //@ts-ignore
-  const categoriesIndex = useSelector((state) => state.filter.categoriesIndex);
-  //@ts-ignore
-  const sortId = useSelector((state) => state.filter.sort.sortProperty);
-  //@ts-ignore
-  const currentPage = useSelector((state) => state.filter.currentPage);
-  //@ts-ignore
-  const searchValue = useSelector((state) => state.filter.searchValue);
+
+  const categoriesIndex = useSelector((state: RootState) => state.filter.categoriesIndex);
+  const sortId = useSelector((state: RootState) => state.filter.sort.sortProperty);
+  const currentPage = useSelector((state: RootState) => state.filter.currentPage);
+  const searchValue = useSelector((state: RootState) => state.filter.searchValue);
 
   const { items, status } = useSelector(selectPizzaItem);
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = useCallback((id: number) => {
     dispatch(setCategoriesIndex(id));
-  };
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -95,14 +91,14 @@ export const Home: FC = () => {
     isMounted.current = true;
   }, [categoriesIndex, sortId, currentPage]);
 
-  const pizzas = items.map((obj: any) => <PizzaBlock {...obj} />);
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(10)].map((_, index) => <Skeleton key={index} />);
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories value={categoriesIndex} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <SortPopup />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
