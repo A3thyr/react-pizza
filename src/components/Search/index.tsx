@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce';
 import styles from './Search.module.scss';
 import { useDispatch } from 'react-redux';
 
-const Search: FC = () => {
+export const Search: FC = () => {
   const dispatch = useDispatch();
   const [value, setValue] = useState('');
 
@@ -57,5 +57,3 @@ const Search: FC = () => {
     </div>
   );
 };
-
-export default Search;
