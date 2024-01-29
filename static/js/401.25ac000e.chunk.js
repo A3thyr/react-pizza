@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkreact_pizza=self.webpackChunkreact_pizza||[]).push([[401],{2401:(s,n,a)=>{a.r(n),a.d(n,{NotFound:()=>o});const e="NotFoundInfo_root__6aauv";var c=a(184);const r=()=>(0,c.jsx)("div",{className:e,children:(0,c.jsxs)("h1",{children:[(0,c.jsx)("span",{children:"404"}),(0,c.jsx)("br",{}),"Not Found"]})}),o=()=>(0,c.jsx)(c.Fragment,{children:(0,c.jsx)(r,{})})}}]);
+//# sourceMappingURL=401.25ac000e.chunk.js.map
