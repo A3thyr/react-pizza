@@ -2,6 +2,7 @@
   "name": "react-pizza",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://a3thyr.github.io/react-pizza",
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
     "@testing-library/jest-dom": "^5.17.0",
@@ -14,6 +15,7 @@
     "ahooks": "^3.7.8",
     "axios": "^1.6.5",
     "clsx": "^2.1.0",
+    "gh-pages": "^6.1.1",
     "lodash.debounce": "^4.0.8",
     "qs": "^6.11.2",
     "react": "^18.2.0",
@@ -31,7 +33,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
