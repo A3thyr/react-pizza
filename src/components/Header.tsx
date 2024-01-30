@@ -33,7 +33,7 @@ export const Header: FC = () => {
             </div>
           </div>
         </Link>
-        <Search />
+        {pathname !== '/cart' && <Search />}
         {pathname !== '/cart' && (
           <Link to="/cart">
             <div className="header__cart">

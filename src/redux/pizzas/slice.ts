@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Pizza, PizzaSliceState, Status } from './types';
 import { fetchPizza } from './asyncActions';
 
